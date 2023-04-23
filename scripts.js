@@ -3,16 +3,36 @@ let itens = JSON.parse(localStorage.getItem("itens")) || []
 
 function createList(){
   let productsList = document.getElementById ("products");
+  let showUnfinished = document.getElementById ("showunfinished")
+
+  showUnfinished.onchange = createList
 
   productsList.innerHTML=""
 
+  itens.sort(function(itemPrev,itemNext){
+    if (itemPrev.id > itemNext.id) {
+      return 1
+    }
+
+    if (itemPrev.id < itemNext.id) {
+      return -1
+    }
+
+    return 0
+  })
+
   itens.forEach(function(item){
-    createItemElement(item)
+    createItemElement(item,showUnfinished.checked)
   })
 }
 
 function saveProduct () {
   let inputText = document.getElementById ("product-name");
+
+  if (!inputText.value.trim()) {
+    alert("produto precisa de um nome")
+    return false
+  }
 
   itens.push({
     id: Number(new Date()),
@@ -23,40 +43,56 @@ function saveProduct () {
   createList()
 }
 
-function createItemElement(item) {
+function onChangeItemInput (item) {
+  let itemToChange = itens.filter (function(item1){
+    return item1.id == item.id
+  })
+
+  let itensToSave = filterItem(item)
+
+  itemToChange[0].finished = !itemToChange[0].finished
+  itensToSave.push(itemToChange[0])
+
+  reloadList(itensToSave)
+}
+
+function onClickDeleteButton (item){
+  let itensToSave = filterItem(item)
+    
+  reloadList(itensToSave)
+}
+
+
+function createItemElement(item,showUnfinished) {
+  if (showUnfinished && item.finished) {
+    return false
+  }
+
   let productsList = document.getElementById ("products");
-  let listItem= document.createElement ("li")
-  let itemInput= document.createElement ("input")
-  let itemSpan= document.createElement ("span")
-  let itemButton= document.createElement ("button")
+  let listItem = new HtmlController("li")
+  let itemInput= new HtmlController("input")
+  let itemSpan = new HtmlController("span")
+  let itemButton= new HtmlController("button")
 
-  itemSpan.innerHTML = " " + item.name + " ";
-  itemSpan.style.textDecoration= item.finished ? "line-through": ""
-  itemInput.setAttribute("type", "checkbox")
-  itemInput.checked=item.finished 
-  itemInput.onchange=function(){
-    let itemToChange = itens.filter (function(item1){
-      return item1.id == item.id
-    })
+  itemSpan
+    .addInnerHtml(item.name)
+    .changeStyle(item.finished)
 
-    let itensToSave = filterItem(item)
-    
-    itemToChange[0].finished = !itemToChange[0].finished
-    itensToSave.push(itemToChange[0])
+  itemInput
+    .setElementAttribute("type", "checkbox")
+    .setElementAttribute("checked", item.finished,true)
+    .addOnChange(onChangeItemInput.bind(null, item))
 
-    reloadList(itensToSave)
-  }
-  itemButton.innerHTML = "X"
-  itemButton.onclick = function(){
-    let itensToSave = filterItem(item)
-    
-    reloadList(itensToSave)
-  }
+  itemButton
+    .addInnerHtml("X")
+    .addOnClick(onClickDeleteButton.bind(null,item))
 
-  listItem.appendChild (itemInput)
-  listItem.appendChild (itemSpan)
-  listItem.appendChild (itemButton)
-  productsList.appendChild (listItem)
+  listItem
+    .addChild(itemInput)
+    .addChild(itemSpan)
+    .addChild(itemButton)
+
+  productsList.appendChild (listItem.getElement())
 }
 
 function filterItem(item){
@@ -75,3 +111,5 @@ function saveInLocalStorages () {
   localStorage.setItem("itens",JSON.stringify(itens))
 }
 createList();
+
+document.getElementById("Form").addEventListener("submit", (event) => event.preventDefault())
