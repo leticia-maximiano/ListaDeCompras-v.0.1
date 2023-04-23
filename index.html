@@ -12,15 +12,19 @@
     <h1>lista de compras</h1>
   </div>
   <div> 
+  <form id="Form" action="">
 
-   <input id= "product-name" type="text" placeholder="digite o produto">
-   <button id="1" onclick="saveProduct()">salvar</button>
+    <input id= "product-name" type="text" placeholder="digite o produto">
+    <input type="checkbox" id="showunfinished"> 
+    <span>mostrar não concluídos</span>
+    <button type="submit" id="1" onclick="saveProduct()">salvar</button>
+  </form>
   </div>
   <div >
     <ul id="products">
     </ul>
   </div>
-  <script src="./scripts.js">
-  </script>
+  <script src= "./HtmlController.js"></script>
+  <script src="./scripts.js"></script>
 </body>
 </html>
