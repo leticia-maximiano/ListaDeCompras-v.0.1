@@ -1,6 +1,6 @@
 class HtmlController {
-  constructor (element) {
-    this.element = document.createElement(element)
+  constructor (element, existingElement= false) {
+    this.element = existingElement ? document.getElementById(element) : document.createElement(element)
   }
 
   addInnerHtml(text) {
@@ -11,6 +11,18 @@ class HtmlController {
 
   addOnChange (func) {
     this.element.onchange = func
+
+    return this;
+  }
+
+  setValue(text) {
+    this.element.value=text
+
+    return this;
+  }
+
+  addEventListener(event,func) {
+    this.element.addEventListener(event,func)
 
     return this;
   }

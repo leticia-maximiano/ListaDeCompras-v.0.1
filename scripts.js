@@ -1,13 +1,13 @@
 
 let itens = JSON.parse(localStorage.getItem("itens")) || []
 
-function createList(){
-  let productsList = document.getElementById ("products");
-  let showUnfinished = document.getElementById ("showunfinished")
+function createList() {
+  let productsList = new HtmlController("products", true);
+  let showUnfinished = new HtmlController ("showunfinished", true)
 
-  showUnfinished.onchange = createList
+  showUnfinished.addOnChange(createList)
 
-  productsList.innerHTML=""
+  productsList.addInnerHtml("")
 
   itens.sort(function(itemPrev,itemNext){
     if (itemPrev.id > itemNext.id) {
@@ -22,25 +22,28 @@ function createList(){
   })
 
   itens.forEach(function(item){
-    createItemElement(item,showUnfinished.checked)
+    createItemElement(item,showUnfinished.getElement().checked)
   })
 }
 
 function saveProduct () {
-  let inputText = document.getElementById ("product-name");
+  let inputText = new HtmlController ("product-name", true);
+  let textValue= inputText.getElement().value.trim()
 
-  if (!inputText.value.trim()) {
+  if (!textValue) {
     alert("produto precisa de um nome")
     return false
   }
 
   itens.push({
     id: Number(new Date()),
-    name:inputText.value, 
+    name:textValue, 
     finished: false 
   })
   saveInLocalStorages()
   createList()
+
+  inputText.setValue("")
 }
 
 function onChangeItemInput (item) {
@@ -68,7 +71,7 @@ function createItemElement(item,showUnfinished) {
     return false
   }
 
-  let productsList = document.getElementById ("products");
+  let productsList = new HtmlController ("products", true);
   let listItem = new HtmlController("li")
   let itemInput= new HtmlController("input")
   let itemSpan = new HtmlController("span")
@@ -92,7 +95,7 @@ function createItemElement(item,showUnfinished) {
     .addChild(itemSpan)
     .addChild(itemButton)
 
-  productsList.appendChild (listItem.getElement())
+  productsList.addChild (listItem)
 }
 
 function filterItem(item){
@@ -112,4 +115,4 @@ function saveInLocalStorages () {
 }
 createList();
 
-document.getElementById("Form").addEventListener("submit", (event) => event.preventDefault())
+new HtmlController("Form", true).addEventListener("submit", (event) => event.preventDefault())
