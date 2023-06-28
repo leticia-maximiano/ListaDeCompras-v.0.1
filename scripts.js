@@ -1,4 +1,5 @@
 
+/*
 let itens = JSON.parse(localStorage.getItem("itens")) || []
 
 function createList() {
@@ -113,6 +114,8 @@ function reloadList(itensToSave){
 function saveInLocalStorages () {
   localStorage.setItem("itens",JSON.stringify(itens))
 }
-//createList();
+//createList();*/
 
-new HtmlController("Form", true).addEventListener("submit", (event) => event.preventDefault())
+function saveProduct() {
+  new ListController().saveProduct();
+}

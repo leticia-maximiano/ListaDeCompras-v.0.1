@@ -12,12 +12,15 @@
     <h1>lista de compras</h1>
   </div>
   <div> 
-  <form id="Form" action="/anuncios">
+  <form id="Form" action="/">
     <input id= "product-name" type="text" placeholder="digite o produto">
-    <input type="checkbox" id="showunfinished"> 
-    <span>mostrar não concluídos</span>
     <button type="submit" id="1" onclick="saveProduct()">salvar</button>
   </form>
+  <div>
+    <input type="search" id="search" placeholder="pesquisar">
+    <input type="checkbox" id="showunfinished"> 
+    <span>mostrar não concluídos</span>
+  </div>
   </div>
   <div >
     <ul id="products">

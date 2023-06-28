@@ -1,17 +1,46 @@
 class ListController {
   constructor() {
-    this.itens = JSON.parse(localStorage.getItem("itens")) || [];
+    this.itens = this.loadList();
+
+    new HtmlController("Form", true).addEventListener("submit", (event) => event.preventDefault());
+    new HtmlController("search", true).addEventListener("input", (event) => this.search(event, this));
+
+    this.createList();
+  }
+
+  loadList() {
+    return JSON.parse(localStorage.getItem("itens")) || [];
+  }
+
+  search(event, _this) {
+    const searchValue = event.target.value;
+    let itens = _this.loadList();
+
+    _this.clearList();
+
+    if (searchValue.trim()){
+      itens = itens.filter((item) => item.name.includes(event.target.value));
+    }
+
+    _this.createItemElements(itens);
+  }
+
+  clearList() {
+    let productsList = new HtmlController("products", true);
+    productsList.addInnerHtml("");
   }
 
   createList() {
-    let productsList = new HtmlController("products", true);
+    this.clearList();
+    this.createItemElements(this.itens);
+  }
+
+  createItemElements(itens) {
     let showUnfinished = new HtmlController ("showunfinished", true);
 
     showUnfinished.addOnChange(this.createList);
 
-    productsList.addInnerHtml("");
-
-    this.itens.sort((itemPrev, itemNext) => {
+    itens.sort((itemPrev, itemNext) => {
       if (itemPrev.id > itemNext.id) {
         return 1
       }
@@ -23,7 +52,7 @@ class ListController {
       return 0
     });
 
-    this.itens.forEach((item) => {
+    itens.forEach((item) => {
       this.createItemElement(item, showUnfinished.getElement().checked);
     });
   }
@@ -70,13 +99,13 @@ class ListController {
     itemToChange[0].finished = !itemToChange[0].finished;
     itensToSave.push(itemToChange[0]);
 
-    reloadList(itensToSave);
+    this.reloadList(itensToSave);
   }
 
   onClickDeleteButton(item) {
     let itensToSave = this.filterItem(item);
 
-    reloadList(itensToSave);
+    this.reloadList(itensToSave);
   }
 
   filterItem(item) {
@@ -95,6 +124,25 @@ class ListController {
   saveInLocalStorages() {
     localStorage.setItem("itens", JSON.stringify(this.itens));
   }
+
+  saveProduct() {
+    let inputText = new HtmlController("product-name", true);
+    let textValue = inputText.getElement().value.trim();
+
+    /* if (!textValue) {
+      return alert("produto precisa de um nome");
+    } */
+
+    this.itens.push({
+      id: Number(new Date()),
+      name: textValue,
+      finished: false
+    })
+    this.saveInLocalStorages();
+    this.createList();
+
+    inputText.setValue("")
+  }
 }
 
-new ListController().createList();
+new ListController();
