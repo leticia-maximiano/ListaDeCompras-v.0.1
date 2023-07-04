@@ -4,7 +4,7 @@ class HtmlController {
   }
 
   addInnerHtml(text) {
-    this.element.innerHTML = " " + text + " ";
+    this.element.innerHTML = text ;
 
     return this;
   }
@@ -36,11 +36,12 @@ class HtmlController {
   addChild(element) {
     this.element.appendChild(element.getElement())
 
-    return this; 
+    return this;
   }
 
   changeStyle (finished) {
     this.element.style.textDecoration = finished ? "line-through": "";
+    this.element.style.fontStyle = finished ? "italic" : "";
 
     return this;
   }

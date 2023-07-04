@@ -8,26 +8,27 @@
   <link rel="stylesheet" type="text/css" href="styles.css" media="screen" />
 </head>
 <body>
-  <div style="text-align:center;"> 
+  <div id="header" >
     <h1>lista de compras</h1>
   </div>
-  <div> 
-  <form id="Form" action="/">
-    <input id= "product-name" type="text" placeholder="digite o produto">
-    <button type="submit" id="1" onclick="saveProduct()">salvar</button>
-  </form>
+  <div id ="main">
+    <form id="Form" action="/">
+      <input id="product-name" type="text" placeholder="digite o produto">
+      <button type="submit" id="1" onclick="new ListController().saveProduct();">salvar</button>
+    </form>
+    <div id="filters">
+      <h2>Filtros</h2>
+      <input type="search" id="search" placeholder="pesquisar">
+      <input type="checkbox" id="showunfinished"> 
+      <span>mostrar não concluídos</span>
+    </div>
+    </div>
   <div>
-    <input type="search" id="search" placeholder="pesquisar">
-    <input type="checkbox" id="showunfinished"> 
-    <span>mostrar não concluídos</span>
-  </div>
-  </div>
-  <div >
-    <ul id="products">
-    </ul>
+  <ul id="products">
+  </ul>
   </div>
   <script src= "./HtmlController.js"></script>
   <script src="./ListController.js"></script>
-  <script src="./scripts.js"></script>
+  <!-- <script src="./scripts.js"></script> -->
 </body>
 </html>

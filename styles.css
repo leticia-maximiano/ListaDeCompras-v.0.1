@@ -1,3 +1,99 @@
-#product-name {
-  width: 300px;  
-  }
+*{
+  margin: 0;
+  padding: 0;
+}
+
+body{
+  font-family: roboto;
+}
+
+#header h1 {
+  text-align: center;
+  font-weight: 300;
+  text-transform: uppercase;
+  margin: 20px 0;
+}
+
+#main, #products {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 80%;
+  margin: 0 auto;
+  margin-bottom: 30px;
+}
+
+#main #Form, #main #filters {
+  width: 100%;
+}
+
+#main #filters h2 {
+  font-weight:  300;
+  padding-bottom: 5px;
+}
+
+#main #Form{
+  margin-bottom: 20px;
+  border-bottom: 1px solid #686868;
+  display: flex;
+  justify-content: center;
+}
+
+#main #Form #product-name,
+#main #filters #search {
+  height: 25px;
+  padding-left: 8px;
+  font-family: roboto;
+  margin-right: 5px;
+  width: 100%;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #686868;
+}
+
+#main #Form button {
+  width: 200px;
+  height: 29px;
+  background: #28A745;
+  border: 2px solid #19642b;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+#products li {
+  list-style: none;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 5px;
+}
+
+#products li:hover, #products li:active {
+  background-color: #f6f6f6;
+}
+
+#products li input {
+  width: 20px;
+  height: 20px;
+}
+
+#products li span {
+  line-height: 20px;
+  margin: 0 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 95%;
+}
+
+#products li button {
+  height: 20px;
+  width: 20px;
+  background-color: #DC3545;
+  color: #fff;
+  border-radius: 5px;
+  margin-left: auto;
+  border: 1px solid #50161b;
+}
